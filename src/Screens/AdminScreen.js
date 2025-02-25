@@ -82,8 +82,8 @@ const AdminScreen = ({navigation}) => {
   const getTenderData = async () => {
     let value = await AsyncStorage.getItem('tenderData');
     let data = value ? JSON.parse(value).reverse() : [];
-    const updatedData = data.map(({['id']: _, ...rest}) => rest);
-    setTenderData(updatedData);
+    console.log(data)
+    setTenderData(data);
   };
 
   return (

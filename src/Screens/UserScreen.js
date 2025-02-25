@@ -45,32 +45,34 @@ const getTimeRemaining = targetTime => {
 
 const UserScreen = ({navigation}) => {
   const [tenderData, setTenderData] = useState([]);
+  const [tenders, setTenders] = useState([]);
+  const [bidsData, setBidsData] = useState([]);
   const [companyName, setCompanyName] = useState('');
   const [bidAmount, setBidAmount] = useState('');
   const [timers, setTimers] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedData, setSelectedData] = useState('');
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.replace('LoginScreen');
-          }}>
-          <Text
-            style={{
-              fontSize: 15,
-              color: '#000000',
-              fontWeight: 'bold',
-              marginRight: 15,
-            }}>
-            {'Logout'}
-          </Text>
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => (
+  //       <TouchableOpacity
+  //         onPress={() => {
+  //           navigation.replace('LoginScreen');
+  //         }}>
+  //         <Text
+  //           style={{
+  //             fontSize: 15,
+  //             color: '#000000',
+  //             fontWeight: 'bold',
+  //             marginRight: 15,
+  //           }}>
+  //           {'Logout'}
+  //         </Text>
+  //       </TouchableOpacity>
+  //     ),
+  //   });
+  // }, [navigation]);
 
   useEffect(() => {
     const updateTimers = () => {
@@ -86,7 +88,7 @@ const UserScreen = ({navigation}) => {
                 return [
                   item.id,
                   {
-                    text: 'Bidding Starts In : ',
+                    text: 'Starts In : ',
                     time: getTimeRemaining(fromDate),
                     color: 'green',
                   },
@@ -95,7 +97,7 @@ const UserScreen = ({navigation}) => {
                 return [
                   item.id,
                   {
-                    text: 'Bidding Ends In : ',
+                    text: 'Ends In : ',
                     time: getTimeRemaining(toDate),
                     color: 'orange',
                   },
@@ -103,7 +105,7 @@ const UserScreen = ({navigation}) => {
               } else {
                 return [
                   item.id,
-                  {text: 'Bidding Ended', time: '', color: 'red'},
+                  {text: 'Closed', time: '', color: 'red'},
                 ];
               }
             }),
@@ -125,8 +127,27 @@ const UserScreen = ({navigation}) => {
   const getTenderData = async () => {
     let value = await AsyncStorage.getItem('tenderData');
     let data = value ? JSON.parse(value).reverse() : [];
-    setTenderData(data);
+    let value1 = await AsyncStorage.getItem('biddingData');
+    let data1 = value1 ? JSON.parse(value1) : [];
+    setBidsData(data1);
+    setTenders(data);
   };
+
+  useEffect(() => {
+    if (tenders.length > 0) {
+      const updatedTenders = tenders.map(tender => {
+        const relatedBids = bidsData.filter(bid => bid.tenderId === tender.id);
+
+        const minBid =
+          relatedBids.length > 0
+            ? Math.min(...relatedBids.map(bid => Number(bid.bidAmount)))
+            : 'No Bids';
+
+        return {...tender, minBid};
+      });
+      setTenderData(updatedTenders);
+    }
+  }, [tenders, bidsData]);
 
   const finalSubmit = async () => {
     try {
@@ -208,6 +229,16 @@ const UserScreen = ({navigation}) => {
                 }}>
                 {timers[item.id]?.text} {timers[item.id]?.time}
               </Text>
+              {item.minBid !== 'No Bids' && (
+                <Text
+                  style={{
+                    marginTop: 5,
+                    color: 'blue',
+                    fontWeight: '700',
+                  }}>
+                  Lowest Quote : {item.minBid} Lacs
+                </Text>
+              )}
               {timers[item.id]?.color === 'orange' && (
                 <TouchableOpacity
                   onPress={() => {
@@ -301,7 +332,7 @@ const UserScreen = ({navigation}) => {
             />
             <CustomInput
               value={bidAmount}
-              placeholder={'Bid Cost'}
+              placeholder={'Bid Cost (In Lacs)'}
               onChange={text => {
                 setBidAmount(text);
               }}
@@ -309,7 +340,7 @@ const UserScreen = ({navigation}) => {
               keyboard={'numeric'}
               multiline={false}
             />
-            <View style={{marginTop: 10, width: '70%', alignSelf:"center"}}>
+            <View style={{marginTop: 10, width: '70%', alignSelf: 'center'}}>
               <CustomButton
                 title={'Submit'}
                 onPress={() => {
