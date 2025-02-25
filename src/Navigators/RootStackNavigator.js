@@ -4,6 +4,7 @@ import React from 'react';
 import LoginScreen from '../Screens/LoginScreen';
 import AdminScreen from '../Screens/AdminScreen';
 import UserScreen from '../Screens/UserScreen';
+import BidsManagement from '../Screens/BidsManagements';
 
 
 
@@ -13,9 +14,32 @@ const RootStackNavigator = ({navigation}) => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown:false}} />
-        <Stack.Screen name="AdminScreen" component={AdminScreen} />
-        <Stack.Screen name="UserScreen" component={UserScreen} />
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AdminScreen"
+          component={AdminScreen}
+          options={{
+            title: 'Auctions',
+          }}
+        />
+        <Stack.Screen
+          name="UserScreen"
+          component={UserScreen}
+          options={{
+            title: 'Auctions',
+          }}
+        />
+        <Stack.Screen
+          name="BidsManagement"
+          component={BidsManagement}
+          options={{
+            title: 'Bids',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

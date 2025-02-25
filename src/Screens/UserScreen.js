@@ -139,7 +139,7 @@ const UserScreen = ({navigation}) => {
         companyName: companyName,
         bidAmount: bidAmount,
         bidTime: moment().format('hh:mm A'),
-        bidEndTime: moment(selectedData['to Time']).format('hh:mm A'),
+        bidEndTime: selectedData['to Time'],
       };
       data.push(newItem);
       await AsyncStorage.setItem('biddingData', JSON.stringify(data));
@@ -309,7 +309,7 @@ const UserScreen = ({navigation}) => {
               keyboard={'numeric'}
               multiline={false}
             />
-            <View style={{marginTop: 10, width: '70%'}}>
+            <View style={{marginTop: 10, width: '70%', alignSelf:"center"}}>
               <CustomButton
                 title={'Submit'}
                 onPress={() => {

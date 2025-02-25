@@ -10,6 +10,8 @@ const LoginScreen = ({navigation}) => {
   const submitData = async () => {
     if (contact == 'Admin') {
       navigation.replace('AdminScreen');
+    } else if (contact == 'bid') {
+      navigation.replace('BidsManagement');
     } else {
       navigation.replace('UserScreen');
     }

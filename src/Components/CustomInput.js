@@ -27,7 +27,7 @@ const CustomInput = props => {
         ]}
         theme={{
           colors: {
-            primary: '#000000',
+            primary: 'grey',
           },
         }}
         outlineColor={'#000000'}

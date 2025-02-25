@@ -173,7 +173,7 @@ const AdminScreen = ({navigation}) => {
               keyboard={'numeric'}
               multiline={false}
             />
-            <View style={{marginTop: 10, width: '70%'}}>
+            <View style={{marginTop: 10, width: '70%', alignSelf:"center"}}>
               <CustomButton
                 disabled={
                   description.trim() == '' ||
@@ -241,7 +241,7 @@ const AdminScreen = ({navigation}) => {
                             fontWeight: '900',
                             marginTop: 1,
                           }}>
-                          {item['from Time']}
+                          {item['to Time']}
                         </Text>
                       </View>
                     </View>
