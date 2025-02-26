@@ -53,26 +53,26 @@ const UserScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedData, setSelectedData] = useState('');
 
-  // useEffect(() => {
-  //   navigation.setOptions({
-  //     headerRight: () => (
-  //       <TouchableOpacity
-  //         onPress={() => {
-  //           navigation.replace('LoginScreen');
-  //         }}>
-  //         <Text
-  //           style={{
-  //             fontSize: 15,
-  //             color: '#000000',
-  //             fontWeight: 'bold',
-  //             marginRight: 15,
-  //           }}>
-  //           {'Logout'}
-  //         </Text>
-  //       </TouchableOpacity>
-  //     ),
-  //   });
-  // }, [navigation]);
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.replace('LoginScreen');
+          }}>
+          <Text
+            style={{
+              fontSize: 15,
+              color: '#000000',
+              fontWeight: 'bold',
+              marginRight: 15,
+            }}>
+            {'Logout'}
+          </Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   useEffect(() => {
     const updateTimers = () => {

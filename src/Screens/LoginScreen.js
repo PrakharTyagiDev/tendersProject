@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, ToastAndroid, View} from 'react-native';
 import CustomInput from '../Components/CustomInput';
 import CustomButton from '../Components/CustomButton';
 
@@ -10,10 +10,12 @@ const LoginScreen = ({navigation}) => {
   const submitData = async () => {
     if (contact == 'Admin') {
       navigation.replace('AdminScreen');
-    } else if (contact == 'bid') {
+    } else if (contact == 'Bid') {
       navigation.replace('BidsManagement');
-    } else {
+    } else if (contact == 'User') {
       navigation.replace('UserScreen');
+    } else {
+      ToastAndroid.show('Invalid Credentials', ToastAndroid.SHORT);
     }
   };
   return (
